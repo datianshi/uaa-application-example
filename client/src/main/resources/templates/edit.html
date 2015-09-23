@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="=UTF-8"/>
+    <title>Edit Page</title>
+</head>
+<body>
+<h1>Edit Shaozhen's Address</h1>
+<form action="#" th:action="@{/edit}" th:object="${shaozhen}" method="POST">
+    Address: <input type="text" name="address" th:field="*{address}" />
+    <input type="submit" value="Edit"/>
+</form>
+</body>
+</html>

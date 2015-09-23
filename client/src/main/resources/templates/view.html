@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="=UTF-8"/>
+    <title>View Page</title>
+</head>
+<body>
+<h1>Shaozhen's Address</h1>
+Address: <label th:text="${shaozhen.address}">View Shaozhen's address</label>
+<a th:href="@{/edit(address=${shaozhen.address})}">Edit Shaozhen's Address</a>
+</body>
+</html>
