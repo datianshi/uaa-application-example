@@ -11,11 +11,11 @@
 
 3. [UAAC](https://docs.cloudfoundry.org/adminguide/uaa-user-management.html)
 
-## Application Component
+## Application Components
 
 ### [Resource Server](resource-server)
 
-> Resource server is an application that guards certain resources through checking token validity agains UAA
+> Resource server is an application. It guards certain resources through checking token validity against UAA
 
 >The resource in this example is simply a hash map with both get and put exposing through resource server.
 
@@ -29,7 +29,7 @@ Changed hash map with key: Address to Austin
 
 * How does the resource server guards the resource?
 
-  1. It needs register to UAA as a client with uaa.resource authority. We name the resource as shaozhen
+  1. It needs to register as a UAA client with uaa.resource authority. We name the resource as shaozhen
 
   ```
   sding$ uaac client get shaozhen
@@ -49,9 +49,9 @@ Changed hash map with key: Address to Austin
   uaac group add shaozhen.write
   ```
 
-  3. resource server flow
+  3. Resource server token validation flow
 
-  > when the requests comes:
+  > when the requests come:
 
   > Check the http header with token
 
