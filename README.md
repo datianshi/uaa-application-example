@@ -32,22 +32,26 @@ Changed hash map with key: Address to Austin
   1. It needs to register as a UAA client with uaa.resource authority. We name the resource as shaozhen
 
   ```
-  sding$ uaac client get shaozhen
-  scope: none
-  client_id: shaozhen
-  resource_ids: none
-  authorized_grant_types: authorization_code password refresh_token
-  autoapprove:
-  action: none
-  authorities:  uaa.resource
-  lastmodified: 1443016696873
-  ```
-  2. Create two groups as "shaozhen.read & shaozhen.write"
+    uaac client add shaozhen --authorities uaa.resource --authorized_grant_types authorization_code -s shaozhen
+    
+    scope: uaa.none
+    client_id: shaozhen
+    resource_ids: none
+    authorized_grant_types: authorization_code refresh_token
+    autoapprove: 
+    action: none
+    authorities: uaa.resource
+    lastmodified: 1444574877149
+    id: shaozhen
 
   ```
-  uaac group add shaozhen.read
-  uaac group add shaozhen.write
-  ```
+  2. Create two groups as "shaozhen.read & shaozhen.write"
+  
+    ```
+    uaac group add shaozhen.read
+    uaac group add shaozhen.write
+      
+    ```    
 
   3. Resource server token validation flow
 
@@ -107,15 +111,19 @@ Changed hash map with key: Address to Austin
   1. Register UAA with a client id
 
   ```
-    uaac client get sample-client
-    scope: shaozhen.read shaozhen.write
-    client_id: sample-client
+    uaac client add shaozhen --authorities uaa.resource --authorized_grant_types authorization_code -s shaozhen
+    
+    scope: uaa.none
+    client_id: shaozhen
     resource_ids: none
     authorized_grant_types: authorization_code refresh_token
-    autoapprove:
+    autoapprove: 
     action: none
-    authorities: uaa.none
-    lastmodified: 1442949218113  
+    authorities: uaa.resource
+    lastmodified: 1444574877149
+    id: shaozhen
+
+  
   ```
 
   2. Authorization code flow
