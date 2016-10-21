@@ -6,6 +6,14 @@
 </head>
 <body>
 <h1>No Auth needed</h1>
+<li>
+    <a target="uaa" th:href="|${ssoServiceUrl}/profile|">See your account profile (so you can de-authorize this client)</a>
+</li>
+<form action="logout" method="POST">
+    <input type="submit" value="logout"/>
+</form>
+<li>
 <a href="/view">View Shaozhen's Address</a>
+</li>
 </body>
 </html>

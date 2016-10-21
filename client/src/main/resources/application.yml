@@ -1,10 +1,7 @@
+server:
+  port: 8082
 resource:
   addr: http://localhost:8081/
-
-oauth:
-  resource: https://uaa.10.65.233.228.xip.io
-  token: https://uaa.10.65.233.228.xip.io/oauth/token
-  authorize: https://uaa.10.65.233.228.xip.io/oauth/authorize
 
 security:
   basic:
@@ -17,3 +14,5 @@ logging:
         security: DEBUG
         web:
           client: DEBUG
+#        boot:
+#          autoconfigure: DEBUG

@@ -1,0 +1,12 @@
+security:
+  oauth2:
+    client:
+      clientId: resource_server
+      clientSecret: shaozhen
+      accessTokenUri: https://uaa-sding.cfapps.pez.pivotal.io/oauth/token
+      userAuthorizationUri: https://uaa-sding.cfapps.pez.pivotal.io/oauth/authorize
+    resource:
+      jwt:
+        keyUri: https://uaa-sding.cfapps.pez.pivotal.io/token_key
+      userInfoUri: https://uaa-sding.cfapps.pez.pivotal.io/userinfo
+      tokenInfoUri: https://uaa-sding.cfapps.pez.pivotal.io/check_token

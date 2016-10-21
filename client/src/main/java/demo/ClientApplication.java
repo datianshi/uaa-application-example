@@ -1,10 +1,11 @@
 package demo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import javax.net.ssl.*;
 import java.security.SecureRandom;
@@ -14,7 +15,8 @@ import java.security.cert.X509Certificate;
 import static javax.net.ssl.SSLContext.getInstance;
 
 @SpringBootApplication
-public class DemoApplication {
+@EnableOAuth2Sso
+public class ClientApplication extends WebSecurityConfigurerAdapter {
 
     static {
         try {
@@ -44,12 +46,23 @@ public class DemoApplication {
         }
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+    @Value("${ssoServiceUrl:placeholder}")
+    private String ssoServiceUrl;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .antMatcher("/**")
+                .authorizeRequests()
+                .antMatchers("/", "/logout")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and().logout()
+                .logoutSuccessUrl(ssoServiceUrl + "/logout").and().csrf().disable();
     }
 
-//    @Bean
-//    public RestTemplate restTemplate(){
-//        return new RestTemplate();
-//    }
+    public static void main(String[] args) {
+        SpringApplication.run(ClientApplication.class, args);
+    }
 }
