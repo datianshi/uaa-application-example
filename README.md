@@ -221,6 +221,7 @@ public class ResourceServerApplication
   ```
 
   ResourceController.java
+
   ```
   @PostConstruct
  public void init() {
@@ -232,3 +233,30 @@ public class ResourceServerApplication
      return new AuthorizationCodeResourceDetails();
  }
   ```
+
+### JWT TOKEN
+
+In order to demonstrate what JWT ACCESS TOKEN looks like. On the client APP there is an ${APP_URL}/token endpoint shows the decoded token
+
+```
+{
+  "jti" : "8314ce22e2b3442cb565dfdacc576baf",
+  "sub" : "a019641f-418e-4c74-bdb0-5f38596b2d33",
+  "scope" : [ "openid", "roles", "shaozhen.write", "shaozhen.read" ],
+  "client_id" : "511b196b-db41-4b99-ab48-2335b18dcd93",
+  "cid" : "511b196b-db41-4b99-ab48-2335b18dcd93",
+  "azp" : "511b196b-db41-4b99-ab48-2335b18dcd93",
+  "grant_type" : "authorization_code",
+  "user_id" : "a019641f-418e-4c74-bdb0-5f38596b2d33",
+  "origin" : "saml",
+  "user_name" : "dsz0111@gmail.com",
+  "email" : "dsz0111@gmail.com",
+  "auth_time" : 1479237575,
+  "rev_sig" : "9753f552",
+  "iat" : 1479237841,
+  "exp" : 1479281041,
+  "iss" : "https://test-identity.uaa.run.haas-63.pez.pivotal.io/oauth/token",
+  "zid" : "5fddd55e-abf7-4cf3-b173-9324df56918a",
+  "aud" : [ "shaozhen", "openid", "511b196b-db41-4b99-ab48-2335b18dcd93" ]
+}
+```
