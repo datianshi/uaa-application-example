@@ -5,12 +5,12 @@ applications:
   buildpack: java_buildpack_offline
   path: resource-server/target/resource-server-1.0-SNAPSHOT.jar
   services:
-  - test-identity
+  - identity-plan
 - name: client
   host: client
   buildpack: java_buildpack_offline
   path: client/target/client-1.0-SNAPSHOT.jar
   env:
-    RESOURCE_ADDR: https://resource-server.cfapps.haas-22.pez.pivotal.io/
+    RESOURCE_ADDR: https://resource-server.cfapps.haas-63.pez.pivotal.io/
   services:
-  - test-identity
+  - identity-plan

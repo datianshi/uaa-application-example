@@ -59,7 +59,7 @@ public class ClientApplication extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and().logout()
-                .logoutSuccessUrl(ssoServiceUrl + "/logout").and().csrf().disable();
+                .logoutSuccessUrl(ssoServiceUrl + "/logout.do").and().csrf().disable();
     }
 
     public static void main(String[] args) {
