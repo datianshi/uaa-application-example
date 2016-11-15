@@ -9,7 +9,7 @@
 
 1. Pivotal Cloud Foundry installed
 2. Pivotal Cloud Foundry Single Sign on tile installed
-3. A SAML provider with two users belongs to two groups, admin and user
+3. A SAML provider with two users belongs to two groups, admin and user.
    You can use this php saml provider for testing/experimental purpose
   https://github.com/datianshi/simplesamlphp-for-cf
 
@@ -18,23 +18,52 @@
   cf push
   ```
   User shaozhen (password: shaozhen) belongs to the admin group
+
   User marissa6 (password: saml6) belongs to the user group
+
+  A sample SAML response
+
+  ```
+  <saml:AttributeStatement>
+    <saml:Attribute Name="uid" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xsi:type="xs:string">shaozhen</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="eduPersonAffiliation" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xsi:type="xs:string">member</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="emailAddress" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xsi:type="xs:string">dsz0111@gmail.com</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="groups" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xsi:type="xs:string">saml.user</saml:AttributeValue>
+        <saml:AttributeValue xsi:type="xs:string">saml.admin</saml:AttributeValue>
+        <saml:AttributeValue xsi:type="xs:string">admin</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="costCenter" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xsi:type="xs:string">Denver,CO</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="manager" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xsi:type="xs:string">John the Sloth</saml:AttributeValue>
+        <saml:AttributeValue xsi:type="xs:string">Kari the Ant Eater</saml:AttributeValue>
+    </saml:Attribute>
+</saml:AttributeStatement>
+  ```
 
 ## Create and configure the Plan
 
 * Login to p-identity.system_domain
-* Click a new plan and create the plan
-* Click on the created plan and click on manage identity providers
+* Click on new plan and create the plan
+* Click on manage identity providers
 ![](pictures/new-plan.png)
 * Click on New Identity Provider
-* Input the SAML IDP Provider SAML metadata file here.
-![](pictures/new-plan.png)
+* Input the IDP Provider SAML metadata file here.
+![](pictures/saml.png)
 * Configure the group attributes. E.g. the simple php saml is returning as 'groups' attribute
 ![](pictures/group.png)
 
 ## Create and configure the service
 
-* Login to apps manager, the single sign on plan created above should show up in the market place
+* Login to the apps manager, the single sign on plan created above should show up in the market place
 * Create a service (identity-plan) based on the above plan
 * Click on manage service link on apps-manager that links to the service dashboard
 * Create a resource named as shaozhen with two scopes as shaozhen.read and shaozhen.write
@@ -44,12 +73,12 @@
 
 Now we have shaozhen.read/write scopes that could be used by applications for authorization. However, How do we know a particular user authenticated by a SAML provider have those scopes. We have to map the SAML user group to the scopes
 
-* Log back to p-identity.system_domain and click on Group White list
+* Back to p-identity.system_domain and click on Group White list
   ![](pictures/group-white-list.png)
 
   ![](pictures/whitelist.png)
 
-  We white list the SAML Groups -> Admin and User from the identity provider
+  White list Admin and User from the identity provider
 
 * Click on the resource permissions -> Map the IDP group to the authorization server scopes
 ![](pictures/resource-mapping.png)
@@ -63,9 +92,9 @@ mvn package
 cf push
 ```
 
-The above command will push two applications -> resource server and client.
+The command will push two applications -> resource server and client.
 
-The two application will bind to the identity service. Underneath the binding:
+The two applications will bind to the identity service. Underneath the binding:
 
 * Two oauth2 clients (client id, client credentials) creation and registered to the identity service
 
@@ -75,7 +104,7 @@ The two application will bind to the identity service. Underneath the binding:
 
 ## Configure the client
 
-Once push, the clients is created. Click on manage the identity service on apps manager. The dashboard would show two created clients
+Once push, the clients are created. Click on manage the identity service on apps manager. The dashboard shows two created clients
 
 ![](pictures/clients.png)
 
@@ -86,10 +115,12 @@ Once push, the clients is created. Click on manage the identity service on apps 
   ![](pictures/saml-provider.png)
 
 * Configure the allowed redirect URL
-  Once authentication finished, what redirect URL is allowed. Since we are using spring security default /login endpoint. We need to add /login URL
+
+  Once authentication finished, what redirect URL is allowed. Since we are using spring security default /login endpoint. We need to add ${APP_URL}/login URL
   ![](pictures/redirect-page.png)
 
 * Configure the scopes
+
   Add the shaozhen.read, shaozhen.write and roles scope
 
   ![](pictures/add-scopes.png)
@@ -176,7 +207,7 @@ public class ResourceServerApplication
   >
   > User selects the scopes and press authorize button
   >
-  > The UAA redirect the page back to client with a code parameter: localhost:8080/view?code=rVnU7n  
+  > The UAA redirect the page back to client with a code parameter: ${APP_URL}/view?code=rVnU7n  
   >
   > The client parses the code and use the code to post to uaa oauth/token endpoint and get UAA token in response. The token will be used by subsequent requests to resource server.
 
